@@ -15,6 +15,7 @@ import tk.shanebee.enchBook.Config;
 import tk.shanebee.enchBook.EnchBook;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @SuppressWarnings("FieldCanBeLocal")
@@ -24,7 +25,7 @@ public class AnvilPrepare implements Listener {
     private final boolean SAFE_ENCHANTS;
     private final boolean SAFE_BOOKS;
     private final boolean IGNORE_CONFLICTS;
-    private final int MAX_LEVEL;
+    private final Map<Enchantment, Integer> MAX_LEVELS;
     private final boolean REQ_PERM;
     private final boolean REQ_PERM_ITEM;
     private final String PERM_BYPASS_SAFE = "enchbook.bypass.safe";
@@ -38,7 +39,7 @@ public class AnvilPrepare implements Listener {
         SAFE_ENCHANTS = config.SAFE_ENCHANTS;
         SAFE_BOOKS = config.SAFE_BOOKS;
         IGNORE_CONFLICTS = config.IGNORE_CONFLICTS;
-        MAX_LEVEL = config.MAX_LEVEL;
+        MAX_LEVELS = config.MAX_LEVELS;
         REQ_PERM = config.ABOVE_VAN_REQUIRES_PERM;
         REQ_PERM_ITEM = config.ABOVE_VAN_REQUIRES_PERM_ITEM;
     }
@@ -119,7 +120,11 @@ public class AnvilPrepare implements Listener {
             if (level > enchantment.getMaxLevel() && REQ_PERM) {
                 return player.hasPermission(PERM_BYPASS_VANILLA);
             }
-            if (level > MAX_LEVEL) {
+            Integer integer = MAX_LEVELS.get(enchantment);
+            if (integer == null) {
+                return false;
+            }
+            if (level > integer) {
                 return player.hasPermission(PERM_BYPASS_MAX);
             }
         }

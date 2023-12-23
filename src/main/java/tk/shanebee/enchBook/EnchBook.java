@@ -18,7 +18,14 @@ public class EnchBook extends JavaPlugin {
     public void onEnable() {
         INSTANCE = this;
         new Metrics(this, 3606);
-        this.pluginConfig = new Config(this);
+        try {
+            this.pluginConfig = new Config(this);
+        } catch (NullPointerException e) {
+            Util.log("&cERROR LOADING CONFIG: %s", e.getMessage());
+            e.printStackTrace();
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
 
         initiateCommand();
         Util.log("&aLOADED SUCCESSFULLY");

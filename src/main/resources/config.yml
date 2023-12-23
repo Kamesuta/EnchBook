@@ -21,7 +21,9 @@ Options:
 
   # Max level when combining book enchants
   # This can be bypassed with the permission 'enchbook.bypass.max_level'
-  Max Level: 10
+  Max Levels:
+    # Protection
+    #protection: 6
 
   # Require permission when a player attempts to combine two books and the level goes higher than vanilla allows
   # This setting only works when 'Safe Books' is false
